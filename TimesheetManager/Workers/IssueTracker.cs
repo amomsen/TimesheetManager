@@ -50,7 +50,7 @@ namespace TimesheetManager.Workers
             {
                 //List<Fiddler.Session> oAllSessions = new List<Fiddler.Session>();
 
-                Fiddler.FiddlerApplication.OnNotification += delegate(object sender, NotificationEventArgs oNEA) { /*Console.WriteLine("** NotifyUser: " + oNEA.NotifyString);*/ };
+                //Fiddler.FiddlerApplication.OnNotification += delegate(object sender, NotificationEventArgs oNEA) { /*Console.WriteLine("** NotifyUser: " + oNEA.NotifyString);*/ };
 
                 Fiddler.FiddlerApplication.BeforeRequest += delegate(Fiddler.Session oS)
                 {
@@ -60,7 +60,8 @@ namespace TimesheetManager.Workers
                         Globals.OnTime.IssueID = requestHeaders.Substring(36, requestHeaders.IndexOf("/template") - 36);
                     }
                 };
-                Fiddler.FiddlerApplication.AfterSessionComplete += delegate(Fiddler.Session oS) { };
+
+                //Fiddler.FiddlerApplication.AfterSessionComplete += delegate(Fiddler.Session oS) { };
 
                 Fiddler.CONFIG.IgnoreServerCertErrors = true;
                 FiddlerApplication.Prefs.SetBoolPref("fiddler.network.streaming.abortifclientaborts", true);
