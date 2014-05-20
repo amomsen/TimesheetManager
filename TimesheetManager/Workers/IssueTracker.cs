@@ -48,7 +48,7 @@ namespace TimesheetManager.Workers
         {
             try
             {
-                List<Fiddler.Session> oAllSessions = new List<Fiddler.Session>();
+                //List<Fiddler.Session> oAllSessions = new List<Fiddler.Session>();
 
                 Fiddler.FiddlerApplication.OnNotification += delegate(object sender, NotificationEventArgs oNEA) { /*Console.WriteLine("** NotifyUser: " + oNEA.NotifyString);*/ };
 
