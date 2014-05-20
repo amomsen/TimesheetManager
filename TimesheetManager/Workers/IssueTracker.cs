@@ -30,12 +30,6 @@ namespace TimesheetManager.Workers
                 }
                 Fiddler.FiddlerApplication.Shutdown();
 
-                File.WriteAllText(Globals.Static.regeditLocation, StringBank.Regedit.DoDelete);
-                Process RunRegedit = Process.Start("regedit.exe", String.Format("/s {0}", Globals.Static.regeditLocation));
-                RunRegedit.WaitForExit();
-
-                File.Delete(Globals.Static.regeditLocation);
-
                 Thread.Sleep(500);
             }
             catch (Exception exc)
@@ -48,9 +42,9 @@ namespace TimesheetManager.Workers
         {
             try
             {
-                //List<Fiddler.Session> oAllSessions = new List<Fiddler.Session>();
+                List<Fiddler.Session> oAllSessions = new List<Fiddler.Session>();
 
-                //Fiddler.FiddlerApplication.OnNotification += delegate(object sender, NotificationEventArgs oNEA) { /*Console.WriteLine("** NotifyUser: " + oNEA.NotifyString);*/ };
+                Fiddler.FiddlerApplication.OnNotification += delegate(object sender, NotificationEventArgs oNEA) { /*Console.WriteLine("** NotifyUser: " + oNEA.NotifyString);*/ };
 
                 Fiddler.FiddlerApplication.BeforeRequest += delegate(Fiddler.Session oS)
                 {
@@ -61,7 +55,7 @@ namespace TimesheetManager.Workers
                     }
                 };
 
-                //Fiddler.FiddlerApplication.AfterSessionComplete += delegate(Fiddler.Session oS) { };
+                Fiddler.FiddlerApplication.AfterSessionComplete += delegate(Fiddler.Session oS) { };
 
                 Fiddler.CONFIG.IgnoreServerCertErrors = true;
                 FiddlerApplication.Prefs.SetBoolPref("fiddler.network.streaming.abortifclientaborts", true);
@@ -76,7 +70,7 @@ namespace TimesheetManager.Workers
             }
             catch (Exception exc)
             {
-                System.Windows.Forms.MessageBox.Show(exc.Message);
+                //System.Windows.Forms.MessageBox.Show(exc.Message);
             }
         }
     }
