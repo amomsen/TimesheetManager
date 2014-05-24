@@ -27,20 +27,52 @@ namespace TimesheetManager.Library
             public static string CurrentNote { get; set; }
             public static Bitmap Bitmap { get; set; }
             public static ListViewItem newRow { get; set; }
+
+            private static List<string> WordList = new List<string>();
+
+            public static void AddWord(string Value)
+            {
+                WordList.Add(Value);
+            }
+
+            public static List<string> GetWords()
+            {
+                if (WordList != null)
+                {
+                    return WordList.ToList();
+                }
+                return null;
+            }
+
+            //private static string[] _WordList = { "" };
+            //public static string[] WordList 
+            //{
+            //    get 
+            //    {
+            //        return _WordList;
+            //    }
+            //    set 
+            //    {
+            //        _WordList = WordList.ToArray();
+            //    } 
+            //}
         }
 
         public struct Save
         {
             public static DateTime StartDate { get; set; }
             public static DateTime EndDate { get; set; }
-            public static string IssueNumber { get; set; }
-            public static string Description { get; set; }
+            private static string _IssueNumber = "";
+            public static string IssueNumber { get; set; } //{ get { return _IssueNumber; } set { _IssueNumber = IssueNumber; } }
+            private static string _Description = "";
+            public static string Description { get; set; } //{ get { return _Description; } set { _Description = Description; } }
             public static string Notes { get; set; }
         }
 
         public struct Dialog
         {
-            public static string IssueNumber { get; set; }
+            private static string _IssueNumber = "";
+            public static string IssueNumber { get; set; } //{ get { return _IssueNumber; } set { _IssueNumber = IssueNumber; } }
         }
 
         public struct Rules
@@ -55,15 +87,6 @@ namespace TimesheetManager.Library
             public static string Url = "http://app.symplexity.co.za:82/TimeSheet/RemoteApi/RemoteApi.ashx/8.25";
             public static string Password { get; set; }
             public static string Username { get; set; }
-
-//            static string Query_UserAll = @"[
-//  {
-//    ""Action"": ""Query"",
-//    ""QueryType"": ""UserAll"",
-//    ""DomainType"": ""Replicon.Domain.User"",
-//    ""Args"": []
-//  }
-//]";
         }
 
         public struct DBLayer
@@ -92,29 +115,6 @@ namespace TimesheetManager.Library
             }
         }
 
-        public struct SQLHandshakeVars
-        {
-            public static string SQLConnStr { get; set; }
-
-            public static DataTable dataTable { get; set; }
-
-            private static SqlConnection _sqlConn = new SqlConnection();
-
-            private static SqlCommand _sqlComm = new SqlCommand();
-
-            public static SqlConnection SQLConn
-            {
-                get { return _sqlConn; }
-                set { _sqlConn = SQLConn; }
-            }
-
-            public static SqlCommand SQLComm
-            {
-                get { return (_sqlComm); }
-                set { _sqlComm = SQLComm; }
-            } 
-        }
-
         public struct Settings
         {
             public static string iniPath = Application.StartupPath + "\\Settings.ini";
@@ -136,26 +136,6 @@ namespace TimesheetManager.Library
                 }
                 return null; 
             }
-        }
-
-        public struct OnTime
-        {
-            private static DataTable _dataTable = new DataTable();
-            public static DataTable dataTable
-            {
-                get
-                {
-                    return _dataTable;
-                }
-                set
-                {
-                    _dataTable = dataTable.Clone();
-                }
-            }
-
-            public static string IssueID { get; set; }
-            public static string ConnStr = "Data Source=SYMFILE\\SYMAPP;Initial Catalog=OnTime2010;Persist Security Info=True;User id=ontimeread;Password=ontimeread123";
-            public static string Select = "SELECT  IncidentId , IncidentNumber , Name FROM dbo.Incidents AS I WHERE IncidentId = {0}";
         }
 
         public struct Export

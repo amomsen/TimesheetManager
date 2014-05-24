@@ -217,12 +217,21 @@ namespace TimesheetManager
         {
             try
             {
-                DBLayer.GetIssue(String.Format(Globals.OnTime.Select, Globals.OnTime.IssueID));
-                foreach (DataRow Row in Globals.OnTime.dataTable.Rows)
+                foreach (string word in Globals.Mech.GetWords())
                 {
-                    Globals.Dialog.IssueNumber = String.Format("[#{0}]", Row[1].ToString());
-                    Globals.Save.IssueNumber = String.Format("[#{0}]", Row[1].ToString());
-                    Globals.Save.Description = Row[2].ToString();
+                    if (word != "data" && word != "field" && word != "label" && word != "number" && word != "Incident Number" && word != "1" && word != "info" && word != "cols" && word != "name" && word != "Name")
+                    {
+                        if (word.StartsWith("SYM"))
+                        {
+                            Globals.Dialog.IssueNumber = "[#" + word + "]";
+                            Globals.Save.IssueNumber = "[#" + word + "]";
+                        }
+                        else
+                        {
+                            Globals.Save.Description = word;
+                            break;
+                        }
+                    }
                 }
             }
             catch (Exception exc)
