@@ -7,12 +7,6 @@ namespace TimesheetManager.Library
 {
     public static class StringBank
     {
-        public struct Insert
-        {
-            public static string Replicon =
-            "INSERT INTO";
-        }
-
         public struct OnTime
         {
             
