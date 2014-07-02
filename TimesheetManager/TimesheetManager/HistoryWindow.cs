@@ -11,6 +11,7 @@ using TimesheetManager.Workers;
 using System.Globalization;
 using System.IO;
 using System.Diagnostics;
+using System.Net;
 
 namespace TimesheetManager
 {
@@ -48,27 +49,40 @@ namespace TimesheetManager
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            DataTable tempTable = new DataTable();
-            tempTable.TableName = "TimeSheet";
-            tempTable.Columns.Add("Date", typeof(string));
-            tempTable.Columns.Add("TimeIn", typeof(string));
-            tempTable.Columns.Add("TimeOut", typeof(string));
-            tempTable.Columns.Add("Description", typeof(string));
-            foreach (DataRow Row in Globals.DBLayer.dataTable.Rows)
-            {
-                tempTable.Rows.Add(Row[0].ToString(), Row[1].ToString(), Row[2].ToString(), Convert.ToString(Row[3] + " * " + Row[4] + ": " + Row[5]));
-            }
-
-            Globals.Export.Path = Application.StartupPath + "\\Exports\\" + dtpStart.Value.ToString("yyyy-MM-dd") + " To " + dtpEnd.Value.ToString("yyyy-MM-dd");
             if (cboExport.Text == "Excel Spread Sheet")
             {
-                Globals.Export.Path += ".xlsx";
-                Export.ToExcel(tempTable, Globals.Export.Path);
+
+                DataTable tempTable = new DataTable();
+                tempTable.TableName = "TimeSheet";
+                tempTable.Columns.Add("Date", typeof(string));
+                tempTable.Columns.Add("TimeIn", typeof(string));
+                tempTable.Columns.Add("TimeOut", typeof(string));
+                tempTable.Columns.Add("Description", typeof(string));
+                foreach (DataRow Row in Globals.DBLayer.dataTable.Rows)
+                {
+                    tempTable.Rows.Add(Row[0].ToString(), Row[1].ToString(), Row[2].ToString(), Convert.ToString(Row[3] + " * " + Row[4] + ": " + Row[5]));
+                }
+
+                Globals.Export.Path = Application.StartupPath + "\\Exports\\" + dtpStart.Value.ToString("yyyy-MM-dd") + " To " + dtpEnd.Value.ToString("yyyy-MM-dd");
+                if (cboExport.Text == "Excel Spread Sheet")
+                {
+                    Globals.Export.Path += ".xlsx";
+                    Export.ToExcel(tempTable, Globals.Export.Path);
+                }
+                DialogResult dialogResult = MessageBox.Show("Do you want to open the exported file?", "Open file", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    Process.Start(Globals.Export.Path);
+                }
             }
-            DialogResult dialogResult = MessageBox.Show("Do you want to open the exported file?", "Open file", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+            if (cboExport.Text == "Replicon Time Sheet")
             {
-                Process.Start(Globals.Export.Path);
+                HttpWebRequest httpRequest = HttpWebRequest.Create("http://app.symplexity.co.za:82/TimeSheet/remoteAPI/remoteapi.ashx/8.27.32/testmode") as HttpWebRequest;
+                httpRequest.UserAgent = "Overseer";
+                httpRequest.Method = "POST";
+                httpRequest.ContentType = "application/json";
+                httpRequest.Headers.Add("X-Replicon-Security-Context", "User");
+
             }
         }
 

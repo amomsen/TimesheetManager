@@ -74,27 +74,27 @@ namespace TimesheetManager.Workers
             }
         }
 
-        //public static void GetIssue(string Query)
-        //{
-        //    try
-        //    {
-        //        using (SqlConnection Conn = new SqlConnection(Globals.OnTime.ConnStr))
-        //        {
-        //            using (SqlCommand Comm = new SqlCommand(Query, Conn))
-        //            {
-        //                Conn.Open();
-        //                Globals.OnTime.dataTable.Clear();
-        //                Globals.OnTime.dataTable.Load(Comm.ExecuteReader());
-        //            }
-        //        }
-        //    }
-        //    catch (Exception exc)
-        //    {
-        //        NotifyIcon notify = new NotifyIcon();
-        //        notify.BalloonTipText = "Could not capture issue";
-        //        notify.ShowBalloonTip(500);
-        //        System.Windows.Forms.MessageBox.Show(exc.Message);
-        //    }
-        //}
+        public static void GetIssue(string Query)
+        {
+            try
+            {
+                using (SqlConnection Conn = new SqlConnection(Globals.OnTime.ConnStr))
+                {
+                    using (SqlCommand Comm = new SqlCommand(Query, Conn))
+                    {
+                        Conn.Open();
+                        Globals.OnTime.dataTable.Clear();
+                        Globals.OnTime.dataTable.Load(Comm.ExecuteReader());
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                NotifyIcon notify = new NotifyIcon();
+                notify.BalloonTipText = "Could not capture issue";
+                notify.ShowBalloonTip(500);
+                System.Windows.Forms.MessageBox.Show(exc.Message);
+            }
+        }
     }
 }

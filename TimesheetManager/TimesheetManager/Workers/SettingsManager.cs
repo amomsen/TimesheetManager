@@ -47,29 +47,28 @@ namespace TimesheetManager.Workers
                                 RemoveFromStartup();
                                 break;
                             case "TrackingMethod=OCR":
-                                try
+                                if (!asyncStatusWorker.IsBusy)
                                 {
-                                    IssueTracker.DoQuit();
-                                    asyncStatusWorker.CancelAsync();
-                                }
-                                catch
-                                {
-                                    //it is not running
+                                    asyncStatusWorker.Dispose();
                                 }
                                 Globals.Rules.TrackingMethod = "OCR";
                                 break;
                             case "TrackingMethod=Service":
-                                try
+                                if (!asyncStatusWorker.IsBusy)
                                 {
-                                    IssueTracker.DoQuit();
                                     asyncStatusWorker.RunWorkerAsync();
                                 }
-                                catch
-                                {
-                                    //it is not running
-                                }
+                                //EnsureService();
                                 Globals.Rules.TrackingMethod = "Service";
                                 break;
+                        }
+                        if (Rule.StartsWith("Username="))
+                        { 
+                            Globals.Credentials.Username = Cryptography.Decrypt(Rule.Substring(9, Rule.Count() - 9));
+                        }
+                        if (Rule.StartsWith("Password="))
+                        {
+                            Globals.Credentials.Password = Cryptography.Decrypt(Rule.Substring(9, Rule.Count() - 9));
                         }
                     }
                 }
@@ -87,6 +86,19 @@ namespace TimesheetManager.Workers
         }
         public static void SaveSettings()
         {
+            if (File.Exists(Globals.Settings.iniPath))
+            {
+                File.Delete(Globals.Settings.iniPath);
+                File.WriteAllText(Globals.Settings.iniPath, "[Overseer Settings]" + Environment.NewLine);
+            }
+            else
+            {
+                File.WriteAllText(Globals.Settings.iniPath, "[Overseer Settings]" + Environment.NewLine);
+            }
+            foreach (string Rule in Globals.Settings.Get(Names.Lists.iniRules))
+            {
+                File.AppendAllText(Globals.Settings.iniPath, String.Format("{0}{1}", Rule, Environment.NewLine));
+            }
         }
 
         private static void AddToStartup()
@@ -128,6 +140,34 @@ namespace TimesheetManager.Workers
         private static void StartService(object sender, DoWorkEventArgs e)
         {
             IssueTracker.Start();
+        }
+
+        private static void EnsureService()
+        {
+            //Check if the service still exists
+            //if (!File.Exists(Application.StartupPath + "\\Issue Tracking Service.exe"))
+            //{
+            //    //write it if it does not exist
+            //    File.WriteAllBytes(Application.StartupPath + "\\Issue Tracking Service.exe", TimesheetManager.Properties.Resources.Overseer_Service);
+            //}
+            ////Check for the fiddler core dll 
+            //if (!File.Exists(Application.StartupPath + "\\FiddlerCore4.dll"))
+            //{
+            //    //write it if it does not exist
+            //    File.WriteAllBytes(Application.StartupPath + "\\FiddlerCore4.dll", TimesheetManager.Properties.Resources.FiddlerCore4);
+            //}
+
+            ////Service checks if it is not found install and start it
+            //if (ServiceInstaller.GetServiceStatus("Issue Tracking Service") == ServiceState.NotFound)
+            //{
+            //    ServiceInstaller.InstallAndStart("Issue Tracking Service", "Overseer Tracking Service", Application.StartupPath + "\\Issue Tracking Service.exe");
+            //}
+            
+            ////Service is found but is stoped start it
+            //if (ServiceInstaller.GetServiceStatus("Issue Tracking Service") == ServiceState.Stopped)
+            //{
+            //    ServiceInstaller.StartService("Issue Tracking Service");
+            //}
         }
     }
 }

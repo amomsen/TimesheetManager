@@ -77,7 +77,6 @@
             this.lvHistory.MaximumSize = new System.Drawing.Size(759, 227);
             this.lvHistory.MinimumSize = new System.Drawing.Size(759, 227);
             this.lvHistory.Name = "lvHistory";
-            this.lvHistory.Scrollable = false;
             this.lvHistory.ShowGroups = false;
             this.lvHistory.Size = new System.Drawing.Size(759, 227);
             this.lvHistory.TabIndex = 2;
@@ -112,7 +111,7 @@
             // chNotes
             // 
             this.chNotes.Text = "Personal Notes";
-            this.chNotes.Width = 207;
+            this.chNotes.Width = 181;
             // 
             // dtpStart
             // 
@@ -166,7 +165,8 @@
             // 
             this.cboExport.FormattingEnabled = true;
             this.cboExport.Items.AddRange(new object[] {
-            "Excel Spread Sheet"});
+            "Excel Spread Sheet",
+            "Replicon Time Sheet"});
             this.cboExport.Location = new System.Drawing.Point(566, 11);
             this.cboExport.Name = "cboExport";
             this.cboExport.Size = new System.Drawing.Size(121, 21);

@@ -52,6 +52,14 @@ namespace TimesheetManager
                             rbOCR.Checked = true;
                             break;
                     }
+                    if (Settings.StartsWith("Username="))
+                    {
+                        txtUsername.Text = Cryptography.Decrypt(Settings.Substring(9, Settings.Count() - 9));
+                    }
+                    if (Settings.StartsWith("Password="))
+                    {
+                        txtPassword.Text = Cryptography.Decrypt(Settings.Substring(9, Settings.Count() - 9));
+                    }
 
                     //Globals.Settings.Add(Names.Lists.TempRules, Settings);
                 }
@@ -106,25 +114,21 @@ namespace TimesheetManager
                 {
                     Globals.Settings.Add(Names.Lists.iniRules, "TrackingMethod=Service");
                 }
+                if (txtUsername.Text.Trim() != "")
+                {
+                    Globals.Settings.Add(Names.Lists.iniRules, "Username=" + Cryptography.Encrypt(txtUsername.Text));
+                }
+                if (txtPassword.Text.Trim() != "")
+                {
+                    Globals.Settings.Add(Names.Lists.iniRules, "Password=" + Cryptography.Encrypt(txtPassword.Text));
+                }
             }
             catch
             {
             }
             finally
             {
-                if (File.Exists(Globals.Settings.iniPath))
-                {
-                    File.Delete(Globals.Settings.iniPath);
-                    File.WriteAllText(Globals.Settings.iniPath, "[Overseer Settings]" + Environment.NewLine);
-                }
-                else
-                {
-                    File.WriteAllText(Globals.Settings.iniPath, "[Overseer Settings]" + Environment.NewLine);
-                }
-                foreach (string Rule in Globals.Settings.Get(Names.Lists.iniRules))
-                {
-                    File.AppendAllText(Globals.Settings.iniPath, String.Format("{0}{1}", Rule, Environment.NewLine));
-                }
+                SettingsManager.SaveSettings();
                 SettingsManager.LoadSettings();
                 this.Close();
             }

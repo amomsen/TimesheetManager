@@ -7,6 +7,12 @@ namespace TimesheetManager.Library
 {
     public static class StringBank
     {
+        public struct Insert
+        {
+            public static string Replicon =
+            "INSERT INTO";
+        }
+
         public struct OnTime
         {
             
@@ -44,7 +50,7 @@ namespace TimesheetManager.Library
             );
 
             public static string DoDelete =
-            "Windows Registry Editor Version 5.00 [-HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings]";
+            "Windows Registry Editor Version 5.00 {0} [-HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings]";
         }
 
         public struct Replicon

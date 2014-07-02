@@ -30,6 +30,12 @@ namespace TimesheetManager.Workers
                 }
                 Fiddler.FiddlerApplication.Shutdown();
 
+                File.WriteAllText(Globals.Static.regeditLocation, StringBank.Regedit.DoDelete);
+                Process RunRegedit = Process.Start("regedit.exe", String.Format("/s {0}", Globals.Static.regeditLocation));
+                RunRegedit.WaitForExit();
+
+                File.Delete(Globals.Static.regeditLocation);
+
                 Thread.Sleep(500);
             }
             catch (Exception exc)
@@ -42,33 +48,19 @@ namespace TimesheetManager.Workers
         {
             try
             {
-                //List<Fiddler.Session> oAllSessions = new List<Fiddler.Session>();
+                List<Fiddler.Session> oAllSessions = new List<Fiddler.Session>();
 
-                //Fiddler.FiddlerApplication.OnNotification += delegate(object sender, NotificationEventArgs oNEA) { /*Console.WriteLine("** NotifyUser: " + oNEA.NotifyString);*/ };
+                Fiddler.FiddlerApplication.OnNotification += delegate(object sender, NotificationEventArgs oNEA) { /*Console.WriteLine("** NotifyUser: " + oNEA.NotifyString);*/ };
 
-                //Fiddler.FiddlerApplication.BeforeRequest += delegate(Fiddler.Session oS)
-                //{
-                    //oS.bBufferResponse = true;
-                    //string requestHeaders = oS.oRequest.headers.ToString().Trim().ToLower();
-                    //if (requestHeaders.Contains("get /ontime2013web/api/v2/incidents") && requestHeaders.Contains("/template"))
-                    //{
-                    //    Globals.OnTime.IssueID = requestHeaders.Substring(36, requestHeaders.IndexOf("/template") - 36);
-                    //}
-                //};
-
-                Fiddler.FiddlerApplication.AfterSessionComplete += delegate(Fiddler.Session oS) 
+                Fiddler.FiddlerApplication.BeforeRequest += delegate(Fiddler.Session oS)
                 {
-                    string requestHeaders = "";
-                    requestHeaders = oS.oRequest.headers.ToString().Trim().ToLower();
+                    string requestHeaders = requestHeaders = oS.oRequest.headers.ToString().Trim().ToLower();
                     if (requestHeaders.Contains("get /ontime2013web/api/v2/incidents") && requestHeaders.Contains("/template"))
                     {
-                        string[] wordAll = Encoding.UTF8.GetString(oS.responseBodyBytes).Split(new char[] { '{', '"', ':', '[', ',', '}' }, StringSplitOptions.RemoveEmptyEntries);
-                        foreach (string word in wordAll)
-                        {
-                            Globals.Mech.AddWord(word);
-                        }
+                        Globals.OnTime.IssueID = requestHeaders.Substring(36, requestHeaders.IndexOf("/template") - 36);
                     }
                 };
+                Fiddler.FiddlerApplication.AfterSessionComplete += delegate(Fiddler.Session oS) { };
 
                 Fiddler.CONFIG.IgnoreServerCertErrors = true;
                 FiddlerApplication.Prefs.SetBoolPref("fiddler.network.streaming.abortifclientaborts", true);
@@ -83,7 +75,7 @@ namespace TimesheetManager.Workers
             }
             catch (Exception exc)
             {
-                //System.Windows.Forms.MessageBox.Show(exc.Message);
+                System.Windows.Forms.MessageBox.Show(exc.Message);
             }
         }
     }
