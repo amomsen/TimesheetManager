@@ -143,7 +143,8 @@ namespace TimesheetManager.Library
                     _dataTable = dataTable.Clone();
                 }
             }
-
+            public static string IssueNumber { get; set; }
+            public static string IssueDescription { get; set; }
             public static string IssueID { get; set; }
             public static string ConnStr = "Data Source=SYMFILE\\SYMAPP;Initial Catalog=OnTime2010;Persist Security Info=True;User id=ontimeread;Password=ontimeread123";
             public static string Select = "SELECT  IncidentId , IncidentNumber , Name FROM dbo.Incidents AS I WHERE IncidentId = {0}";

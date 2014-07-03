@@ -47,18 +47,28 @@ namespace TimesheetManager.Workers
                                 RemoveFromStartup();
                                 break;
                             case "TrackingMethod=OCR":
-                                if (!asyncStatusWorker.IsBusy)
+                                try
                                 {
-                                    asyncStatusWorker.Dispose();
+                                    IssueTracker.DoQuit();
+                                    asyncStatusWorker.CancelAsync();
+                                }
+                                catch
+                                {
+                                    //it is not running
                                 }
                                 Globals.Rules.TrackingMethod = "OCR";
                                 break;
                             case "TrackingMethod=Service":
-                                if (!asyncStatusWorker.IsBusy)
+                                try
                                 {
+                                    IssueTracker.DoQuit();
                                     asyncStatusWorker.RunWorkerAsync();
                                 }
                                 //EnsureService();
+                                catch
+                                {
+                                    //it is not running
+                                }
                                 Globals.Rules.TrackingMethod = "Service";
                                 break;
                         }

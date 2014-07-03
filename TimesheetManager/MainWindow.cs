@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -42,6 +44,12 @@ namespace TimesheetManager
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             IssueTracker.DoQuit();
+
+            File.WriteAllText(Globals.Static.regeditLocation, StringBank.Regedit.DoDelete);
+            Process RunRegedit = Process.Start("regedit.exe", String.Format("/s {0}", Globals.Static.regeditLocation));
+            RunRegedit.WaitForExit();
+
+            File.Delete(Globals.Static.regeditLocation);
         }
 
         private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
@@ -209,13 +217,9 @@ namespace TimesheetManager
         {
             try
             {
-                DBLayer.GetIssue(String.Format(Globals.OnTime.Select, Globals.OnTime.IssueID));
-                foreach (DataRow Row in Globals.OnTime.dataTable.Rows)
-                {
-                    Globals.Dialog.IssueNumber = String.Format("[#{0}]", Row[1].ToString());
-                    Globals.Save.IssueNumber = String.Format("[#{0}]", Row[1].ToString());
-                    Globals.Save.Description = Row[2].ToString();
-                }
+                Globals.Dialog.IssueNumber = String.Format("[#{0}]", Globals.OnTime.IssueNumber);
+                Globals.Save.IssueNumber = String.Format("[#{0}]", Globals.OnTime.IssueNumber);
+                Globals.Save.Description = Globals.OnTime.IssueDescription;
             }
             catch (Exception exc)
             {

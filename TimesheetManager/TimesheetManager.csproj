@@ -55,6 +55,9 @@
   <PropertyGroup>
     <ApplicationIcon>Clock.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ClosedXML, Version=0.69.1.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -68,8 +71,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Addons\FiddlerCore3dot5.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\Users\Martinn\Downloads\Json60r3\Bin\Net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Addons\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -165,6 +169,7 @@
     <EmbeddedResource Include="SuggestionWindow.resx">
       <DependentUpon>SuggestionWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -194,6 +199,7 @@
     <Content Include="Addons\FiddlerCore3dot5.dll" />
     <Content Include="Addons\Interop.IWshRuntimeLibrary.dll" />
     <Content Include="Addons\Interop.Shell32.dll" />
+    <Content Include="Addons\Newtonsoft.Json.dll" />
     <Content Include="Addons\System.Data.SQLite.dll" />
     <Content Include="Addons\tesseract.dll" />
     <Content Include="Addons\tessnet2_32.dll" />

@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading;
 using Fiddler;
 using TimesheetManager.Library;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Net;
 
 namespace TimesheetManager.Workers
 {
@@ -48,19 +51,27 @@ namespace TimesheetManager.Workers
         {
             try
             {
-                List<Fiddler.Session> oAllSessions = new List<Fiddler.Session>();
-
-                Fiddler.FiddlerApplication.OnNotification += delegate(object sender, NotificationEventArgs oNEA) { /*Console.WriteLine("** NotifyUser: " + oNEA.NotifyString);*/ };
-
-                Fiddler.FiddlerApplication.BeforeRequest += delegate(Fiddler.Session oS)
+                Fiddler.FiddlerApplication.BeforeResponse += delegate(Fiddler.Session oS)
                 {
                     string requestHeaders = requestHeaders = oS.oRequest.headers.ToString().Trim().ToLower();
+                    string jsonText = Encoding.UTF8.GetString(oS.responseBodyBytes);
                     if (requestHeaders.Contains("get /ontime2013web/api/v2/incidents") && requestHeaders.Contains("/template"))
                     {
-                        Globals.OnTime.IssueID = requestHeaders.Substring(36, requestHeaders.IndexOf("/template") - 36);
-                    }
+                        JObject jsonBody = JObject.Parse(jsonText);
+                        foreach (JToken value in jsonBody["data"])
+                        {
+                            if (value["label"].ToString() == "Incident Number")
+                            {
+                                Globals.OnTime.IssueNumber = value["info"].ToString();
+                            }
+                            if (value["label"].ToString() == "Name")
+                            {
+                                Globals.OnTime.IssueDescription = value["info"].ToString();
+                                break;
+                            }
+                        }
+                    }     
                 };
-                Fiddler.FiddlerApplication.AfterSessionComplete += delegate(Fiddler.Session oS) { };
 
                 Fiddler.CONFIG.IgnoreServerCertErrors = true;
                 FiddlerApplication.Prefs.SetBoolPref("fiddler.network.streaming.abortifclientaborts", true);
