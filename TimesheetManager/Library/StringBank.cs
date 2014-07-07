@@ -50,7 +50,98 @@ namespace TimesheetManager.Library
 
         public struct Replicon
         {
-            
+            public static string InitSession =
+            @"[
+              {{
+                ""Action"": ""Query"",
+                ""QueryType"": ""UserByLoginName"",
+                ""DomainType"": ""Replicon.Domain.User"",
+                ""Args"": [
+                  ""{0}""
+                ]
+              }}
+            ]";
+
+            public static string GetSheetID =
+            @"
+            [
+              {{
+                ""Action"": ""Query"",
+                ""QueryType"": ""EntryTimesheetByUserDate"",
+                ""DomainType"": ""Replicon.Suite.Domain.EntryTimesheet"",
+                ""Args"": [
+                  {{
+                    ""__type"": ""Replicon.Domain.User"",
+                    ""Identity"": ""{0}""
+                  }},
+                  {{
+                    ""__type"": ""Date"",
+                    ""Year"": {1},
+                    ""Month"": {2},
+                    ""Day"": {3}
+                  }}
+                ],
+                ""Load"": [
+                  {{
+                    ""Relationship"": ""TimeEntries""
+                  }},
+                  {{
+                    ""Relationship"": ""TimeOffEntries""
+                  }}
+                ]
+              }}
+            ]";
+
+            public static string InsertEntry =
+            @"
+            [
+              {{
+                ""Action"": ""Edit"",
+                ""Type"": ""Replicon.Suite.Domain.EntryTimesheet"",
+                ""Identity"": ""{0}"",
+                ""Operations"": [
+                  {{
+                    ""__operation"": ""CollectionAdd"",
+                    ""Collection"": ""TimeEntries"",
+                    ""Operations"": [
+                      {{
+                        ""__operation"": ""SetRowUdfValues""
+                      }},
+                      {{
+                        ""__operation"": ""SetProperties"",
+                        ""CalculationModeObject"": {{
+                          ""__type"": ""Replicon.TimeSheet.Domain.CalculationModeObject"",
+                          ""Identity"": ""CalculateDuration""
+                        }},
+                        ""EntryDate"": {{
+                          ""__type"": ""Date"",
+                          ""Year"": {1},
+                          ""Month"": {2},
+                          ""Day"": {3}
+                        }},
+                        ""TimeIn"": {{
+                          ""__type"": ""Time"",
+                          ""Hour"": {4},
+                          ""Minute"": {5}
+                        }},
+                        ""TimeOut"": {{
+                          ""__type"": ""Time"",
+                          ""Hour"": {6},
+                          ""Minute"": {7}
+                        }},
+                        ""Comments"": ""{8}"",
+                        ""Task"": {{
+                          ""Identity"": ""8111""
+                        }},
+                        ""Activity"": {{
+                          ""Identity"": ""1""
+                        }}
+                      }}
+                    ]
+                  }}
+                ]
+              }}
+            ]";
         }
     }
 }

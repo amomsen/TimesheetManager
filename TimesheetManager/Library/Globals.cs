@@ -52,9 +52,10 @@ namespace TimesheetManager.Library
 
         public struct Credentials
         {
-            public static string Url = "http://app.symplexity.co.za:82/TimeSheet/RemoteApi/RemoteApi.ashx/8.25";
             public static string Password { get; set; }
             public static string Username { get; set; }
+            public static string UserID { get; set; }
+            public static string SheetID { get; set; }
         }
 
         public struct DBLayer
@@ -155,5 +156,6 @@ namespace TimesheetManager.Library
             public static string Path { get; set; }
             public static DataTable dataTable { get; set; }
         }
+
     }
 }

@@ -60,8 +60,6 @@ namespace TimesheetManager
                     {
                         txtPassword.Text = Cryptography.Decrypt(Settings.Substring(9, Settings.Count() - 9));
                     }
-
-                    //Globals.Settings.Add(Names.Lists.TempRules, Settings);
                 }
             }
             catch

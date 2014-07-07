@@ -46,12 +46,12 @@
             this.rbOCR = new System.Windows.Forms.RadioButton();
             this.rbService = new System.Windows.Forms.RadioButton();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.txtPassword = new System.Windows.Forms.MaskedTextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtUsername = new System.Windows.Forms.TextBox();
-            this.txtPassword = new System.Windows.Forms.MaskedTextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -246,14 +246,22 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Credentials";
             // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(70, 45);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(113, 20);
+            this.txtPassword.TabIndex = 6;
+            this.txtPassword.UseSystemPasswordChar = true;
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(8, 74);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(44, 13);
+            this.label6.Size = new System.Drawing.Size(61, 13);
             this.label6.TabIndex = 5;
-            this.label6.Text = "Identity:";
+            this.label6.Text = "Crypto Key:";
             // 
             // textBox3
             // 
@@ -262,6 +270,7 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(113, 20);
             this.textBox3.TabIndex = 4;
+            this.textBox3.Text = "Not Implemented";
             // 
             // label5
             // 
@@ -287,14 +296,6 @@
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(113, 20);
             this.txtUsername.TabIndex = 0;
-            // 
-            // txtPassword
-            // 
-            this.txtPassword.Location = new System.Drawing.Point(70, 45);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(113, 20);
-            this.txtPassword.TabIndex = 6;
-            this.txtPassword.UseSystemPasswordChar = true;
             // 
             // SettingsWindow
             // 

@@ -146,6 +146,7 @@
     <Compile Include="Workers\IssueTracker.cs" />
     <Compile Include="Workers\ReadText.cs" />
     <Compile Include="Helpers\ServiceInstaller.cs" />
+    <Compile Include="Workers\Repliconnect.cs" />
     <Compile Include="Workers\SettingsManager.cs" />
     <Compile Include="Workers\InitHandler.cs" />
     <Compile Include="Workers\WriteActivity.cs" />
