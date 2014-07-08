@@ -18,7 +18,7 @@ namespace TimesheetManager.Workers
             ApiRequest.Method = "POST";
             ApiRequest.ContentType = "application/json";
             ApiRequest.Headers.Add("X-Replicon-Security-Context", "User");
-            ApiRequest.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(new ASCIIEncoding().GetBytes(Cryptography.Decrypt(Globals.Credentials.Username) + ":" + Cryptography.Decrypt(Globals.Credentials.Password))));
+            ApiRequest.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(new ASCIIEncoding().GetBytes(Globals.Credentials.Username + ":" + Globals.Credentials.Password)));
             StreamWriter writer = new StreamWriter(ApiRequest.GetRequestStream());
 
             writer.Write(Query);
@@ -42,7 +42,7 @@ namespace TimesheetManager.Workers
             ApiRequest.Method = "POST";
             ApiRequest.ContentType = "application/json";
             ApiRequest.Headers.Add("X-Replicon-Security-Context", "User");
-            ApiRequest.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(new ASCIIEncoding().GetBytes(Cryptography.Decrypt(Globals.Credentials.Username) + ":" + Cryptography.Decrypt(Globals.Credentials.Password))));
+            ApiRequest.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(new ASCIIEncoding().GetBytes(Globals.Credentials.Username + ":" + Globals.Credentials.Password)));
             StreamWriter writer = new StreamWriter(ApiRequest.GetRequestStream());
 
             writer.Write(Query);
