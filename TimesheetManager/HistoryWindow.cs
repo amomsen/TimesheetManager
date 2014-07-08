@@ -12,6 +12,7 @@ using System.Globalization;
 using System.IO;
 using System.Diagnostics;
 using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace TimesheetManager
 {
@@ -79,8 +80,21 @@ namespace TimesheetManager
 
         private void RepliconExport()
         {
-            Globals.Credentials.UserID = Repliconnect.RunQuery(string.Format(StringBank.Replicon.InitSession, Globals.Credentials.Username));
-            Globals.Credentials.SheetID = Repliconnect.RunQuery(string.Format(StringBank.Replicon.GetSheetID, Globals.Credentials.UserID, dtpStart.Value.Year, dtpStart.Value.Month, dtpStart.Value.Day));
+			Globals.Credentials.UserID = Repliconnect.RunQuery(string.Format(StringBank.Replicon.InitSession, Globals.Credentials.Username));
+
+			JObject objID = JObject.Parse(Globals.Credentials.UserID);
+			foreach (JToken val in objID["Value"])
+			{
+				Globals.Credentials.UserID = (val["Identity"].ToString());
+			}
+
+			Globals.Credentials.SheetID = Repliconnect.RunQuery(string.Format(StringBank.Replicon.GetSheetID, Globals.Credentials.UserID, dtpStart.Value.Year, dtpStart.Value.Month, dtpStart.Value.Day));
+
+			JObject objSheetID = JObject.Parse(Globals.Credentials.SheetID);
+			foreach (JToken val in objSheetID["Value"])
+			{
+				Globals.Credentials.SheetID = (val["Identity"].ToString());
+			}
             try
             {
                 foreach (DataRow Row in Globals.DBLayer.dataTable.Rows)
