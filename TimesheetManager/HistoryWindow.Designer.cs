@@ -39,8 +39,6 @@
             this.chShort = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chNotes = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.dtpStart = new System.Windows.Forms.DateTimePicker();
-            this.label2 = new System.Windows.Forms.Label();
-            this.dtpEnd = new System.Windows.Forms.DateTimePicker();
             this.btnExport = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.cboExport = new System.Windows.Forms.ComboBox();
@@ -52,9 +50,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(9, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(103, 13);
+            this.label1.Size = new System.Drawing.Size(73, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Select a date range:";
+            this.label1.Text = "Select a date:";
             // 
             // lvHistory
             // 
@@ -116,31 +114,12 @@
             // dtpStart
             // 
             this.dtpStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpStart.Location = new System.Drawing.Point(118, 12);
+            this.dtpStart.Location = new System.Drawing.Point(88, 13);
             this.dtpStart.Name = "dtpStart";
             this.dtpStart.Size = new System.Drawing.Size(95, 20);
             this.dtpStart.TabIndex = 3;
             this.dtpStart.Value = new System.DateTime(2013, 1, 1, 0, 0, 0, 0);
             this.dtpStart.ValueChanged += new System.EventHandler(this.dtpStart_ValueChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(219, 15);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(10, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "-";
-            // 
-            // dtpEnd
-            // 
-            this.dtpEnd.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpEnd.Location = new System.Drawing.Point(235, 12);
-            this.dtpEnd.Name = "dtpEnd";
-            this.dtpEnd.Size = new System.Drawing.Size(95, 20);
-            this.dtpEnd.TabIndex = 5;
-            this.dtpEnd.Value = new System.DateTime(2014, 4, 22, 0, 0, 0, 0);
-            this.dtpEnd.ValueChanged += new System.EventHandler(this.dtpEnd_ValueChanged);
             // 
             // btnExport
             // 
@@ -155,7 +134,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(508, 15);
+            this.label3.Location = new System.Drawing.Point(468, 15);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(52, 13);
             this.label3.TabIndex = 7;
@@ -167,14 +146,14 @@
             this.cboExport.Items.AddRange(new object[] {
             "Excel Spread Sheet",
             "Replicon Time Sheet"});
-            this.cboExport.Location = new System.Drawing.Point(566, 11);
+            this.cboExport.Location = new System.Drawing.Point(526, 11);
             this.cboExport.Name = "cboExport";
-            this.cboExport.Size = new System.Drawing.Size(121, 21);
+            this.cboExport.Size = new System.Drawing.Size(161, 21);
             this.cboExport.TabIndex = 8;
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(336, 10);
+            this.btnRefresh.Location = new System.Drawing.Point(189, 11);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 9;
@@ -191,8 +170,6 @@
             this.Controls.Add(this.cboExport);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnExport);
-            this.Controls.Add(this.dtpEnd);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.dtpStart);
             this.Controls.Add(this.lvHistory);
             this.Controls.Add(this.label1);
@@ -217,8 +194,6 @@
         private System.Windows.Forms.ColumnHeader chShort;
         private System.Windows.Forms.ColumnHeader chNotes;
         private System.Windows.Forms.DateTimePicker dtpStart;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DateTimePicker dtpEnd;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cboExport;

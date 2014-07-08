@@ -24,15 +24,26 @@ namespace TimesheetManager
 
         private void HistoryWindow_Load(object sender, EventArgs e)
         {
-            dtpStart.Value = DateTime.Today.AddDays(-7);
-            dtpEnd.Value = DateTime.Today;
+            DateTime date = DateTime.Now;
+            int dayOfWeek; 
+            dayOfWeek = (int)date.DayOfWeek;
+            date = date.AddDays(-dayOfWeek);
+            dtpStart.Value = date;
+
             cboExport.SelectedIndex = 0;
             GetHistory();
         }
 
         private void GetHistory()
         {
-            DBLayer.Get(String.Format(StringBank.DBQuery.SelectRange, Convert.ToDateTime(dtpStart.Value), Convert.ToDateTime(dtpEnd.Value)));
+            int dayOfWeek;
+            DateTime StartDate, EndDate;
+            dayOfWeek = (int)dtpStart.Value.DayOfWeek;
+            dtpStart.Value = dtpStart.Value.AddDays(-dayOfWeek);
+            StartDate = dtpStart.Value;
+            EndDate = dtpStart.Value.AddDays(7);
+
+            DBLayer.Get(String.Format(StringBank.DBQuery.SelectRange, StartDate, EndDate));
             foreach (DataRow Row in Globals.DBLayer.dataTable.Rows)
             {
                 //ListViewGroup LvGroup = new ListViewGroup(Row[0].ToString());
@@ -112,7 +123,7 @@ namespace TimesheetManager
                 tempTable.Rows.Add(Row[0].ToString(), Row[1].ToString(), Row[2].ToString(), Convert.ToString(Row[3] + " * " + Row[4] + ": " + Row[5]));
             }
 
-            Globals.Export.Path = Application.StartupPath + "\\Exports\\" + dtpStart.Value.ToString("yyyy-MM-dd") + " To " + dtpEnd.Value.ToString("yyyy-MM-dd");
+            Globals.Export.Path = Application.StartupPath + "\\Exports\\" + dtpStart.Value.ToString("yyyy-MM-dd") + " To " + dtpStart.Value.AddDays(7).ToString("yyyy-MM-dd");
             if (cboExport.Text == "Excel Spread Sheet")
             {
                 Globals.Export.Path += ".xlsx";
@@ -127,18 +138,9 @@ namespace TimesheetManager
 
         private void dtpStart_ValueChanged(object sender, EventArgs e)
         {
-            //if (dtpEnd.Value != dtpStart.Value.AddDays(7))
-            //{
-            //    dtpEnd.Value = dtpStart.Value.AddDays(7);
-            //}
-        }
-
-        private void dtpEnd_ValueChanged(object sender, EventArgs e)
-        {
-            //if (dtpStart.Value != dtpEnd.Value.AddDays(-7))
-            //{
-            //    dtpStart.Value = dtpEnd.Value.AddDays(-7);
-            //}
+            int dayOfWeek;
+            dayOfWeek = (int)dtpStart.Value.DayOfWeek;
+            dtpStart.Value = dtpStart.Value.AddDays(-dayOfWeek);
         }
     }
 }
