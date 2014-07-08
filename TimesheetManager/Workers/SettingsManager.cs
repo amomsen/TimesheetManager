@@ -22,6 +22,11 @@ namespace TimesheetManager.Workers
                 asyncStatusWorker.WorkerSupportsCancellation = true;
                 asyncStatusWorker.DoWork += new DoWorkEventHandler(StartService);
 
+				// Set detaults
+				Globals.Rules.ShowNotesDialog = true;
+				Globals.Rules.ShowBalloon = true;
+				Globals.Rules.TrackingMethod = "OCR";
+
                 if (File.Exists(Globals.Settings.iniPath))
                 {
                     foreach (string Rule in File.ReadAllLines(Globals.Settings.iniPath))
@@ -82,12 +87,7 @@ namespace TimesheetManager.Workers
                         }
                     }
                 }
-                else
-                {
-                    Globals.Rules.ShowNotesDialog = true;
-                    Globals.Rules.ShowBalloon = true;
-                    Globals.Rules.TrackingMethod = "OCR";
-                }
+                
             }
             catch (Exception exc)
             {
@@ -153,12 +153,9 @@ namespace TimesheetManager.Workers
             }
         }
 
-        private static void StartService(object sender, DoWorkEventArgs e)
-        {
-            if (asyncStatusWorker.IsBusy != true)
-            {
-                IssueTracker.Start();
-            }
-        }
+		private static void StartService(object sender, DoWorkEventArgs e)
+		{
+			IssueTracker.Start();
+		}
     }
 }
